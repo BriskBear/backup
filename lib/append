@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+. lib/checks
+. lib/reply
+
+function append_tar() {
+  reply -i "\n \
+    Archive: $archive\n \
+    Leaf: $leaf\n \
+    Path: $path\n \
+    Target File: $target\n \
+    Working Directory: $WRK \
+  "
+}

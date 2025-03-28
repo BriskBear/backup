@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+. lib/checks
+
+function create_tar() {
+  is_archive? "${path}/${archive}"
+  case $? in 
+    "0")
+      reply -e "Something went wrong: create_tar: [0mis_archive? [1;36m=>[0m [38;5;40mTrue"
+      ;;
+    *)
+      is_file? "${path}/${archive}" && ( mv -v "${path}/${archive}" "${path}/${archive}.old" )
+
+      cp "${path}/${leaf}" "${WRK}/${now}"  # Rename the file the current timestamp
+      tar -cJvf "${path}/${archive}" -C "$WRK" "$now"
+      ;;
+  esac
+}
