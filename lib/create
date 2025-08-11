@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 . lib/checks
+. lib/sums
 
 function create_tar() {
   is_archive? "${path}/${archive}"
@@ -11,8 +12,10 @@ function create_tar() {
     *)
       is_file? "${path}/${archive}" && ( mv -v "${path}/${archive}" "${path}/${archive}.old" )
 
-      cp "${path}/${leaf}" "${WRK}/${now}"  # Rename the file the current timestamp
-      tar -cJvf "${path}/${archive}" -C "$WRK" "$now"
+      tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}'`
+      tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}'`
+
+      tar cJf ${archive} -C "${tmp_path%$tmp_leaf}" "$tmp_leaf"
       ;;
   esac
 }

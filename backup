@@ -3,7 +3,7 @@
 function backup_tar() {
   . lib/append
   . lib/create
-  
+
   is_archive? "$1"
   case $? in
     "0")
@@ -14,16 +14,16 @@ function backup_tar() {
       is_file? "$1" && target="$1" || reply -e "File not found: $1"
       ;;
   esac
-  
+
   archive=${archive:-".${target}.txz"}
   leaf=`echo ${target:-$archive}     | awk -F'/' '{print $NF}'`
   now=`date -u +%s`
   path=`realpath ${target:-$archive} | sed -e "s/\/${leaf}//g"`
   WRK=`mktemp -d`
-  
+
   append_tar
   create_tar
-  
+
   # Cleanup
   rm -rvf $WRK
   unset archive leaf now path WRK

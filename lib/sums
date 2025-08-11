@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+function rn-sum() {
+  dest="$2"
+  sum=`md5sum "$1" | awk '{print $1}'`
+
+  mv -v "$1" "$dest/$sum"
+}
+
+function compress-sum() {
+  dest="${2:-.}"
+  leaf="$1"
+  archive="${leaf}.txz"
+
+  tar cJf "$dest/$archive" "$leaf"
+  rn-sum "$dest/$archive" "$dest"
+}
