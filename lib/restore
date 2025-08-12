@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
+if [ -r "$1" ]
+then
+  export rtarget=`realpath "$1"`
+elif [[ -r "$BAK_DIR/$1" ]]
+then
+  export rtarget=`realpath "$BAK_DIR/$1"`
+fi
+
+echo "Target: $rtarget"
+
 IFS=$'\n'
-list=(`tar tivf ${1}`)  
+list=(`tar tivf "$rtarget"`)
 
 echo -e "[38;5;28mChoose a file to restore: [0m"
 for idx in $(seq ${#list[@]})
@@ -15,4 +25,4 @@ selection=`echo ${list[$(( $REPLY - 1 ))]} | awk '{print $NF}'`
 
 tar xfO "${1}" "${selection}"| tar xJvf -
 
-unset IFS
+unset IFS rtarget

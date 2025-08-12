@@ -5,15 +5,15 @@
 . $here/lib/sums
 
 function append_tar() {
-  existing="${BAK_DIR:-$path}/${archive}"
-  working="$WRK/${archive%.txz}.tar"
+  astub=`echo "$archive" | awk -F'/' '{print $NF}'`
+  working="$WRK/${astub%.txz}.tar"
 
   tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}' | sed "s/'//g"`
   tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}' | sed "s/'//g"`
 
-  xz -dc "$existing" > "$working"
+  xz -dc "$archive" > "$working"
   tar -rf "$working" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
-  xz -ez9c "$working" > "$existing"
+  xz -ez9c "$working" > "$archive"
 
-  reply -i "Added $tmp_leaf to $existing"
+  reply -i "Added $tmp_leaf to $archive"
 }

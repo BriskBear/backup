@@ -21,10 +21,10 @@ function backup_tar() {
   then [[ $BAK_DIR =~ /$ ]] || export BAK_DIR=$BAK_DIR/
   fi
 
-  archive=${archive:-"${BAK_DIR:-.}${target%.[a-z]*}.txz"}
   leaf=`echo ${target:-$archive}     | awk -F'/' '{print $NF}'`
-  now=`date -u +%s`
   path=`realpath ${target:-$archive} | sed -e "s/\/${leaf}//g"`
+  archive=${archive:-"${BAK_DIR:-$path/.}${target%.[a-z]*}.txz"}
+  now=`date -u +%s`
   WRK=`mktemp -d`
 
   create_tar

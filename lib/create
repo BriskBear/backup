@@ -4,7 +4,7 @@
 . $here/lib/sums
 
 function create_tar() {
-  is_archive? "${path}/${archive}"
+  is_archive? "${archive}"
   case $? in 
     "0")
       . $here/lib/append
@@ -18,7 +18,7 @@ function create_tar() {
       tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}' | sed "s/'//g"`
 
       tar cJf "${archive}" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
-      reply -i "Created "${archive} from $leaf"
+      reply -i "Created ${archive} from $leaf"
       ;;
   esac
 }
