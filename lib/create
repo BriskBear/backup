@@ -7,17 +7,18 @@ function create_tar() {
   is_archive? "${path}/${archive}"
   case $? in 
     "0")
-      . lib/append
+      . $here/lib/append
 
       append_tar
       ;;
     *)
-      is_file? "${path}/${archive}" && ( mv -v "${path}/${archive}" "${path}/${archive}.old" )
+      is_file? "${archive}" && ( mv -v "${archive}" "${archive}.old" )
 
       tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}' | sed "s/'//g"`
       tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}' | sed "s/'//g"`
 
-      tar cJf "${path}/${archive}" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
+      tar cJf "${archive}" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
+      reply -i "Created "${archive} from $leaf"
       ;;
   esac
 }
