@@ -10,7 +10,6 @@ function create_tar() {
       . lib/append
 
       append_tar
-      reply -e "Something went wrong: create_tar: [0mis_archive? [1;36m=>[0m [38;5;40mTrue"
       ;;
     *)
       is_file? "${path}/${archive}" && ( mv -v "${path}/${archive}" "${path}/${archive}.old" )

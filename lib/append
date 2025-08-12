@@ -2,6 +2,7 @@
 
 . lib/checks
 . lib/reply
+. lib/sums
 
 function append_tar() {
   reply -i "\n \
@@ -11,4 +12,13 @@ function append_tar() {
     Target File: $target\n \
     Working Directory: $WRK \
   "
+  existing="${BAK_DIR:-$path}/${archive}"
+  working="$WRK/${archive%.txz}.tar"
+
+  tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}' | sed "s/'//g"`
+  tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}' | sed "s/'//g"`
+
+  xz -dc "$existing" > "$working"
+  tar -rf "$working" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
+  xz -ez9c "$working" > "$existing"
 }
