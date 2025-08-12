@@ -8,10 +8,11 @@ function rn-sum() {
 }
 
 function compress-sum() {
-  dest="${2:-.}"
-  leaf="$1"
+  leaf=`echo $1 | awk -F'/' '{print $NF}'`
   archive="${leaf}.txz"
+  dest="${2:-.}"
+  src="${1%$leaf}"
 
-  tar cJf "$dest/$archive" "$leaf"
+  tar cJf "$dest/$archive" -C "$src" "$leaf"
   rn-sum "$dest/$archive" "$dest"
 }

@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 
 function backup_tar() {
-  . lib/append
   . lib/create
 
   is_archive? "$1"
@@ -15,17 +14,21 @@ function backup_tar() {
       ;;
   esac
 
-  archive=${archive:-".${target}.txz"}
+  ## Ensure BAK_DIR ends with a single '/' if it exists
+  if [[ -n $BAK_DIR ]]
+  then [[ $BAK_DIR =~ /$ ]] || export BAK_DIR=$BAK_DIR/
+  fi
+
+  archive=${archive:-"${BAK_DIR:-.}${target%.[a-z]*}.txz"}
   leaf=`echo ${target:-$archive}     | awk -F'/' '{print $NF}'`
   now=`date -u +%s`
   path=`realpath ${target:-$archive} | sed -e "s/\/${leaf}//g"`
   WRK=`mktemp -d`
 
-  append_tar
   create_tar
 
   # Cleanup
-  rm -rvf $WRK
+  rm -rf $WRK
   unset archive leaf now path WRK
 }
 

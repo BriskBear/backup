@@ -7,15 +7,18 @@ function create_tar() {
   is_archive? "${path}/${archive}"
   case $? in 
     "0")
+      . lib/append
+
+      append_tar
       reply -e "Something went wrong: create_tar: [0mis_archive? [1;36m=>[0m [38;5;40mTrue"
       ;;
     *)
       is_file? "${path}/${archive}" && ( mv -v "${path}/${archive}" "${path}/${archive}.old" )
 
-      tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}'`
-      tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}'`
+      tmp_path=`compress-sum "$path/$leaf" "$WRK" | awk '{print $NF}' | sed "s/'//g"`
+      tmp_leaf=`echo $tmp_path | awk -F'/' '{print $NF}' | sed "s/'//g"`
 
-      tar cJf ${archive} -C "${tmp_path%$tmp_leaf}" "$tmp_leaf"
+      tar cJf "${path}/${archive}" -C "${tmp_path%/$tmp_leaf}" "$tmp_leaf"
       ;;
   esac
 }
