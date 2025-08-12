@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+IFS=$'\n'
+list=(`tar tivf ${1}`)  
+
+echo -e "[38;5;28mChoose a file to restore: [0m"
+for idx in $(seq ${#list[@]})
+do
+  echo -e "  [38;5;226m${idx})[0m ${list[$(( idx - 1 ))]}"
+done
+
+read -p '#: '
+
+selection=`echo ${list[$(( $REPLY - 1 ))]} | awk '{print $NF}'`
+
+tar xfO "${1}" "${selection}"| tar xJvf -
+
+unset IFS
