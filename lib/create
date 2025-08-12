@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-. lib/checks
-. lib/sums
+. $here/lib/checks
+. $here/lib/sums
 
 function create_tar() {
   is_archive? "${path}/${archive}"

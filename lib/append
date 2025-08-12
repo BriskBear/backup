@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-. lib/checks
-. lib/reply
-. lib/sums
+. $here/lib/checks
+. $here/lib/reply
+. $here/lib/sums
 
 function append_tar() {
   reply -i "\n \
