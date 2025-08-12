@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function rn-sum() {
-  dest="$2"
+  dest="${2:-.}"
   sum=`md5sum "$1" | awk '{print $1}'`
 
   mv -v "$1" "$dest/$sum"
