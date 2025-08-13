@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-. $here/lib/checks
-. $here/lib/reply
-. $here/lib/sums
+. $rute/lib/checks
+. $rute/lib/reply
+. $rute/lib/sums
 
 function append_tar() {
   astub=`echo "$archive" | awk -F'/' '{print $NF}'`

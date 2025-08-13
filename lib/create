@@ -1,13 +1,13 @@
 #!/usr/bin/bash
 
-. $here/lib/checks
-. $here/lib/sums
+. $rute/lib/checks
+. $rute/lib/sums
 
 function create_tar() {
   is_archive? "${archive}"
   case $? in 
     "0")
-      . $here/lib/append
+      . $rute/lib/append
 
       append_tar
       ;;
