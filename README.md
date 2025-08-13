@@ -15,11 +15,11 @@ _Create versioned backups of files / folders_
   - `curl -#L https://github.com/BriskBear/backup/raw/refs/heads/release/install | bash`  
 
 ## Configuration:  
-> By default - BAK_DIR unset - backups are named '.<target>.txz'  
+> By default - BAK_DIR unset - backups are named '.\<target\>.txz'  
 __Note__: _Hidden_  
 1. Set a directory for backups to be stored:  
   - `export BAK_DIR=<path_to_backup_dir>`  
-> This saves backups as $BAK_DIR/<target>.txz  
+> This saves backups as $BAK_DIR/\<target\>.txz  
 __Note__: _Visible_  
 
 ### Description:  
