@@ -3,7 +3,7 @@
 ## aptly named because this was also breaking shell: TODO more testing required
 function breaker() {
   [[ $# == 2 ]] && code=$2 || code=1
-  echo -e "\033[38;5;160m$1\033[0m"
+  echo -e "\033[48;5;160m\033[1m\033[38;5;231m $1 \033[0m"
   return "$2" &>/dev/null \; exit "$2"
 }
 

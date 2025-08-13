@@ -1,5 +1,15 @@
 #!/usr/bin/bash
 
+. `dirname -- $(realpath ${BASH_SOURCE[0]})`/reply
+
 function is_file?()    { [[ -r "$1" ]] }
 function is_xz?()      { [[ `file "$1"` =~ 'XZ compressed data' ]] }
 function is_archive?() { `is_file? "$1"` && `is_xz? "$1"` ; }
+
+function parse-input() {
+  target=`realpath "$1"`
+
+  [[ -r "$target" ]] || reply -e "Target file/directory not found: $target"
+
+  printf "$target"
+}
