@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+declare -A DIR URL
+DIR['bin']=$HOME/.local/bin
+DIR['install']=$HOME/.local/share
+URL['backup']='https://github.com/briskbear/backup'
+URL['grab']='https://github.com/BriskBear/profile.d/raw/refs/heads/release/grab_latest.sh'
+grab=`mktemp`
+
+# Create all directories in DIR
+printf '%s\n' ${DIR[@]} | xargs -I % mkdir -v %
+
+# Get the grab-latest function
+curl -#Lo $grab ${URL['grab']}
+. $grab
+rm $grab
+
+# Extract the backup project
+pushd ${DIR['install']} 2>/dev/null
+  grab-latest ${URL['backup']}
+popd
+
+# Create links in the bin directory so that bak and res are on the path
+ln -sf ${DIR['install']}/bak ${DIR['bin']}/bak
+ln -sf ${DIR['install']}/lib/restore ${DIR['bin']}/res
