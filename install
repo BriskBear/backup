@@ -3,7 +3,7 @@
 declare -A DIR URL
 DIR['bin']=$HOME/.local/bin
 DIR['install']=$HOME/.local/share
-URL['backup']='https://github.com/briskbear/backup'
+URL['backup']='briskbear/backup'
 URL['grab']='https://github.com/BriskBear/profile.d/raw/refs/heads/release/grab_latest.sh'
 grab=`mktemp`
 
