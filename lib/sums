@@ -16,3 +16,11 @@ function compress-sum() {
   tar cJf "$dest/$archive" -C "$src" "$leaf"
   rn-sum "$dest/$archive" "$dest"
 }
+
+function unique-sums() {
+  car="$1"
+  sum="$2"
+  list=(`tar tif "$car"`)
+
+  [[ "${list[@]}" =~ "$sum" ]] && return 1 || return 0
+}
