@@ -6,34 +6,23 @@ function backup_tar() {
   . $rute/lib/reply
 
   target=`parse-input "$1"`
-
-  is_archive? "$1"
-  case $? in
-    "0")
-      archive="$1"
-      ;;
-    *)
-      [[ -z "$1" ]] && reply -e "Please specify a target:\n  backup <file|archive.xz>"
-      is_file? "$1" && target="$1" || reply -e "File not found: $1"
-      ;;
-  esac
+  [ $? -eq 1 ] && reply -e "Target file/directory not found: $1"
 
   ## Ensure BAK_DIR ends with a single '/' if it exists
   if [[ -n $BAK_DIR ]]
   then [[ $BAK_DIR =~ /$ ]] || export BAK_DIR=$BAK_DIR/
   fi
 
-  leaf=`echo ${target:-$archive}     | awk -F'/' '{print $NF}'`
-  path=`realpath ${target:-$archive} | sed -e "s/\/${leaf}//g"`
-  archive=${archive:-"${BAK_DIR:-$path/.}${target%.[a-z]*}.txz"}
-  now=`date -u +%s`
+  leaf=`echo $target | awk -F'/' '{print $NF}'`
+  path=`echo $target | sed -e "s/\/${leaf}//g"`
+  archive="${BAK_DIR:-$path/.}${leaf%.[a-z]*}.txz"
   WRK=`mktemp -d`
 
   create_tar
 
   # Cleanup
   rm -rf $WRK
-  unset archive leaf now path WRK
+  unset archive leaf path target WRK
 }
 
 backup_tar "$@"
